@@ -1,2 +1,9 @@
 rootProject.name='JetpackDemo'
 include ':app'
+include ':lock'
+include ':base'
+include ':common'
+
+project(":common").projectDir = new File("./module/common")
+project(":base").projectDir = new File("./module/base")
+project(":lock").projectDir = new File("./module/lock")
