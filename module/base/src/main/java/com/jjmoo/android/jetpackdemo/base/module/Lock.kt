@@ -1,6 +1,6 @@
 package com.jjmoo.android.jetpackdemo.base.module
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 
 @Suppress("unused")
@@ -12,5 +12,6 @@ interface Lock {
     }
     fun isEnabled() = TYPE_DISABLED == getType()
     fun getType() = TYPE_DISABLED
-    fun startActivity(context: Context, intent: Intent) = context.startActivity(intent)
+    fun startSettings(caller: Activity) {}
+    fun startActivity(caller: Activity, intent: Intent) = caller.startActivity(intent)
 }
