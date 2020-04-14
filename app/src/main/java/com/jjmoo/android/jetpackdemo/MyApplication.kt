@@ -1,13 +1,12 @@
 package com.jjmoo.android.jetpackdemo
 
 import android.app.Application
-import com.jjmoo.android.jetpackdemo.base.DaggerAppComponent
-import dagger.internal.DaggerCollections
+import com.jjmoo.android.jetpackdemo.base.BaseApp
 
 /**
  * @author Zohn
  */
-class MyApplication : Application() {
+class MyApplication : BaseApp() {
     override fun onCreate() {
         super.onCreate()
     }
