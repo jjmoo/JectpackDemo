@@ -1,12 +1,11 @@
 package com.jjmoo.android.jetpackdemo
 
-import android.app.Application
-import com.jjmoo.android.jetpackdemo.base.BaseApp
+import com.jjmoo.android.jetpackdemo.base.BaseApplication
 
 /**
  * @author Zohn
  */
-class MyApplication : BaseApp() {
+class MyApplication : BaseApplication() {
     override fun onCreate() {
         super.onCreate()
     }

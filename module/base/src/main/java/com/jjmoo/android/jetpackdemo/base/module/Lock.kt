@@ -5,13 +5,11 @@ import android.content.Intent
 
 @Suppress("unused")
 interface Lock {
-    companion object {
-        const val TYPE_DISABLED = 0
-        const val TYPE_PATTERN = 1
-        const val TYPE_PIN = 2
-    }
-    fun isEnabled() = TYPE_DISABLED == getType()
-    fun getType() = TYPE_DISABLED
+    enum class Type { DISABLED, PATTERN, PIN }
+
+    fun isInstalled() = false
+    fun isEnabled() = Type.DISABLED == getType()
+    fun getType() = Type.DISABLED
     fun startSettings(caller: Activity) {}
     fun startActivity(caller: Activity, intent: Intent) = caller.startActivity(intent)
 }
