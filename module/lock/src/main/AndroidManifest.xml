@@ -10,7 +10,8 @@
 
         <activity
             android:name=".LockTestActivity"
-            android:enabled="true">
+            android:label="@string/title_activity_lock_test"
+            android:enabled="${testEnabled}">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

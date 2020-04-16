@@ -1,15 +1,22 @@
 package com.jjmoo.android.jetpackdemo.base.module
 
 import android.app.Activity
-import android.content.Intent
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 @Suppress("unused")
 interface Lock {
-    enum class Type { DISABLED, PATTERN, PIN }
+    enum class Type { UNDEFINED, PATTERN, PIN }
 
     fun isInstalled() = false
-    fun isEnabled() = Type.DISABLED == getType()
-    fun getType() = Type.DISABLED
-    fun startSettings(caller: Activity) {}
-    fun startActivity(caller: Activity, intent: Intent) = caller.startActivity(intent)
+
+    fun getType(): LiveData<Type> = MutableLiveData<Type>(Type.UNDEFINED)
+
+    fun isEnabled(): LiveData<Boolean> = MutableLiveData<Boolean>(false)
+
+    fun setEnabled(enable: Boolean, caller: Activity? = null) {}
+
+    fun validate(caller: Activity? = null, callback: () -> Unit) {
+        callback.invoke()
+    }
 }

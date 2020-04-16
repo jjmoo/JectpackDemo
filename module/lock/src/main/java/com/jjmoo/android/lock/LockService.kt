@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import androidx.core.content.edit
+import androidx.lifecycle.MutableLiveData
 import com.jjmoo.android.jetpackdemo.base.module.Lock
 import com.jjmoo.appjoint.annotation.ServiceProvider
 import org.slf4j.LoggerFactory
@@ -21,30 +22,47 @@ class LockService(private val context: Application) : Lock {
 
     private val logger by lazy { LoggerFactory.getLogger(TAG) }
 
+    private var enabledData: MutableLiveData<Boolean>
+    private var typeData: MutableLiveData<Lock.Type>
+
+    private var enabled: Boolean
     private var type: Lock.Type
     private var password: String
 
     init {
         context.getSharedPreferences(TAG, Context.MODE_PRIVATE).run {
-            type = Lock.Type.values()[getInt(KEY_TYPE, Lock.Type.DISABLED.ordinal)]
+            enabled = getBoolean(KEY_ENABLED, false)
+            type = Lock.Type.values()[getInt(KEY_TYPE, Lock.Type.UNDEFINED.ordinal)]
             password = getString(KEY_PASSWORD, "")!!
         }
+        enabledData = MutableLiveData(enabled)
+        typeData = MutableLiveData(type)
         set(Lock.Type.PIN, "8868")
     }
 
     override fun isInstalled() = true
 
-    override fun getType() = type
+    override fun getType() = typeData
 
-    override fun startSettings(caller: Activity) {
-        logger.info("startSettings: caller=[{}]", caller)
-        caller.startActivity(Intent(caller, LockActivity::class.java))
+    override fun isEnabled() = enabledData
+
+    override fun setEnabled(enable: Boolean, caller: Activity?) {
+
     }
 
-    override fun startActivity(caller: Activity, intent: Intent) {
-        logger.info("startActivity: caller=[{}], intent=[{}]", caller, intent)
-        caller.startActivity(Intent(caller, LockActivity::class.java).putExtra(KEY_INTENT, intent))
+    override fun validate(caller: Activity?, callback: () -> Unit) {
+        super.validate(caller, callback)
     }
+
+    //    override fun startSettings(caller: Activity) {
+//        logger.info("startSettings: caller=[{}]", caller)
+//        caller.startActivity(Intent(caller, LockActivity::class.java))
+//    }
+//
+//    override fun startActivity(caller: Activity, intent: Intent) {
+//        logger.info("startActivity: caller=[{}], intent=[{}]", caller, intent)
+//        caller.startActivity(Intent(caller, LockActivity::class.java).putExtra(KEY_INTENT, intent))
+//    }
 
     fun check(input: String) = password == md5(input)
 
@@ -77,8 +95,24 @@ class LockService(private val context: Application) : Lock {
 
     companion object {
         const val TAG = "LockProvider"
-        const val KEY_INTENT = "intent"
+        private const val KEY_ENABLED = "lock_enabled"
         private const val KEY_TYPE = "lock_type"
         private const val KEY_PASSWORD = "lock_password"
     }
 }
+
+//interface Lock {
+//    enum class Type { DISABLED, PATTERN, PIN }
+//
+//    fun isInstalled() = false
+//
+//    fun getType(): LiveData<Type> = MutableLiveData<Type>(Type.DISABLED)
+//
+//    fun isEnabled() = Type.DISABLED == getType().value
+//
+//    fun setEnabled(enable: Boolean, caller: Activity? = null) {}
+//
+//    fun validate(caller: Activity? = null, callback: () -> Unit) {
+//        callback.invoke()
+//    }
+//}

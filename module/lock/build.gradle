@@ -15,9 +15,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            manifestPlaceholders = [
+                    "testEnabled": true
+            ]
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [
+                    "testEnabled": false
+            ]
         }
     }
 
