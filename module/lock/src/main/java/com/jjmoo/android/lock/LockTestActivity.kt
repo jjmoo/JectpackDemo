@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.jjmoo.android.common.CommonApplication
 import com.jjmoo.android.jetpackdemo.base.BaseApplication
 import com.jjmoo.android.jetpackdemo.base.Lock
 import org.slf4j.LoggerFactory

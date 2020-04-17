@@ -1,45 +1,30 @@
-@file:Suppress("unused")
-
 package com.jjmoo.android.jetpackdemo.base
 
 import android.app.Application
-import androidx.lifecycle.ViewModel
+import com.jjmoo.android.common.ApplicationScope
+import com.jjmoo.android.common.CommonComponent
 import com.jjmoo.appjoint.AppJoint
-import com.jjmoo.appjoint.AppLike
 import dagger.Component
-import dagger.MapKey
 import dagger.Module
 import dagger.Provides
-import javax.inject.Scope
-import javax.inject.Singleton
-import kotlin.reflect.KClass
 
-/**
- * @author Zohn
- */
-
-@Scope
-@Retention(value = AnnotationRetention.RUNTIME)
-annotation class ActivityScope
-
-@Retention(AnnotationRetention.RUNTIME)
-@MapKey
-annotation class ViewModelKey(val value: KClass<out ViewModel>)
-
-@Singleton
-@Component(modules = [Providers::class])
+@ApplicationScope
+@Component(
+    dependencies = [CommonComponent::class],
+    modules = [Providers::class]
+)
 interface AppComponent {
+    @Component.Factory
+    interface Factory {
+        fun create(appComponent: CommonComponent): AppComponent
+    }
     val application: Application
     val lock: Lock
 }
 
 @Module
 class Providers {
-    @Singleton
+    @ApplicationScope
     @Provides
     fun providerLock(): Lock = AppJoint.service(Lock::class.java) ?: object : Lock {}
-
-    @Singleton
-    @Provides
-    fun providerApplication(): Application = AppLike.getInstance().context as Application
 }

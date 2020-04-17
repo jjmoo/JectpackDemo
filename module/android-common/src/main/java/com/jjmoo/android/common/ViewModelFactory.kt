@@ -1,4 +1,4 @@
-package com.jjmoo.android.jetpackdemo.base
+package com.jjmoo.android.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
