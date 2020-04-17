@@ -10,7 +10,7 @@
 
         <activity
             android:name=".LockTestActivity"
-            android:label="@string/title_activity_lock_test"
+            android:label="@string/label_lock_test"
             android:enabled="${testEnabled}">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.jjmoo.android.jetpackdemo.base.module
+package com.jjmoo.android.jetpackdemo.base
 
 import android.app.Activity
 import androidx.lifecycle.LiveData
@@ -10,9 +10,9 @@ interface Lock {
 
     fun isInstalled() = false
 
-    fun getType(): LiveData<Type> = MutableLiveData<Type>(Type.UNDEFINED)
+    fun getType(): LiveData<Type> = MutableLiveData(Type.UNDEFINED)
 
-    fun isEnabled(): LiveData<Boolean> = MutableLiveData<Boolean>(false)
+    fun isEnabled(): LiveData<Boolean> = MutableLiveData(false)
 
     fun setEnabled(enable: Boolean, caller: Activity? = null) {}
 

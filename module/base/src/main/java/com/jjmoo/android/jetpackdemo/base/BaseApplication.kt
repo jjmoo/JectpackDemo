@@ -8,7 +8,7 @@ import com.jjmoo.appjoint.annotation.AppSpec
 @AppSpec
 open class BaseApplication : Application() {
 
-    val appComponent: AppComponent = DaggerAppComponent.create()
+    open val appComponent: AppComponent = DaggerAppComponent.create()
 
     override fun onCreate() {
         LogUtils.prefix = "JetpackDemo/"

@@ -1,12 +1,11 @@
 package com.jjmoo.android.lock
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.jjmoo.android.lock.databinding.FragmentValidateBinding
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -17,7 +16,8 @@ import javax.inject.Inject
 class ValidateFragment : Fragment() {
 
     private val logger by lazy { LoggerFactory.getLogger("ValidateFragment") }
-    @Inject lateinit var service: LockService
+    @Inject
+    lateinit var service: LockService
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -32,16 +32,6 @@ class ValidateFragment : Fragment() {
         binding.input.setListener {
             if (4 == it.length) {
                 if (service.check(it)) {
-                    activity!!.run {
-                        val intent = intent.getParcelableExtra<Intent>(LockService.KEY_INTENT)
-                        if (null != intent) {
-                            finish()
-                            startActivity(intent)
-                        } else {
-                            // TODO
-                            logger.warn("??????")
-                        }
-                    }
                 } else {
                     binding.input.setDisplayMode(PasswordInput.MODE_WRONG)
                 }

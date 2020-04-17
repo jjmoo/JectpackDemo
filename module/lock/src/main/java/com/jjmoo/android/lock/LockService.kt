@@ -3,14 +3,12 @@ package com.jjmoo.android.lock
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.text.TextUtils
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
-import com.jjmoo.android.jetpackdemo.base.module.Lock
+import com.jjmoo.android.jetpackdemo.base.Lock
 import com.jjmoo.appjoint.annotation.ServiceProvider
 import org.slf4j.LoggerFactory
-import java.lang.StringBuilder
 import java.security.MessageDigest
 
 /**
@@ -18,7 +16,8 @@ import java.security.MessageDigest
  */
 @Suppress("unused")
 @ServiceProvider
-class LockService(private val context: Application) : Lock {
+class LockService(private val context: Application) :
+    Lock {
 
     private val logger by lazy { LoggerFactory.getLogger(TAG) }
 

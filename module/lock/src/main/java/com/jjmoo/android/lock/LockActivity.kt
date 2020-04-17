@@ -15,7 +15,8 @@ class LockActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         lockComponent = DaggerLockComponent.factory().create(
-            (application as BaseApplication).appComponent)
+            (application as BaseApplication).appComponent
+        )
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<ActivityLockBinding>(this, R.layout.activity_lock)
     }

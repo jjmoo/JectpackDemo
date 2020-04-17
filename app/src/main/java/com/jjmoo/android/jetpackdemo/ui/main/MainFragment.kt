@@ -28,8 +28,8 @@ class MainFragment : Fragment() {
                 action = "android.intent.action.VIEW"
                 data = Uri.parse("http://www.baidu.com")
             }.run {
-                (activity!!.application as MyApplication).appComponent.lock()
-                    .startActivity(activity!!, this)
+//                (activity!!.application as MyApplication).appComponent.lock()
+//                    .startActivity(activity!!, this)
             }
         }
     }
