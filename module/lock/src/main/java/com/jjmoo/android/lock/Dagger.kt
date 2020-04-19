@@ -43,6 +43,6 @@ abstract class Binders {
 
     @Binds
     @IntoMap
-    @ViewModelKey(LocTestViewModel::class)
-    abstract fun bindViewModel(viewModel: LocTestViewModel): ViewModel
+    @ViewModelKey(LockTestViewModel::class)
+    abstract fun bindViewModel(viewModel: LockTestViewModel): ViewModel
 }

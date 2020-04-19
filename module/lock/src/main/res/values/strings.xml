@@ -3,4 +3,6 @@
     <string name="label_lock_test">LockTest</string>
     <string name="title_test_setting">Test Lock</string>
     <string name="validate_input_password">Input Password</string>
+    <string name="title_lock_setting">Lock Setting</string>
+    <string name="button_start_browser">Start Browser</string>
 </resources>

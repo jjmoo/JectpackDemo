@@ -3,6 +3,7 @@ package com.jjmoo.android.lock
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.text.TextUtils
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
@@ -16,41 +17,50 @@ import java.security.MessageDigest
  */
 @Suppress("unused")
 @ServiceProvider
-class LockService(private val context: Application) :
-    Lock {
+class LockService(private val context: Application) : Lock {
 
     private val logger by lazy { LoggerFactory.getLogger(TAG) }
 
-    private var enabledData: MutableLiveData<Boolean>
-    private var typeData: MutableLiveData<Lock.Type>
-
-    private var enabled: Boolean
-    private var type: Lock.Type
+    private var enabled: MutableLiveData<Boolean>
+    private var type: MutableLiveData<Lock.Type>
     private var password: String
+    private var callback: (() -> Unit)? = null
 
     init {
         context.getSharedPreferences(TAG, Context.MODE_PRIVATE).run {
-            enabled = getBoolean(KEY_ENABLED, false)
-            type = Lock.Type.values()[getInt(KEY_TYPE, Lock.Type.UNDEFINED.ordinal)]
+            enabled = MutableLiveData(getBoolean(KEY_ENABLED, false))
+            type = MutableLiveData(Lock.Type.values()[getInt(KEY_TYPE, Lock.Type.UNDEFINED.ordinal)])
             password = getString(KEY_PASSWORD, "")!!
         }
-        enabledData = MutableLiveData(enabled)
-        typeData = MutableLiveData(type)
         set(Lock.Type.PIN, "8868")
     }
 
     override fun isInstalled() = true
 
-    override fun getType() = typeData
+    override fun getType() = type
 
-    override fun isEnabled() = enabledData
+    override fun isEnabled() = enabled
 
-    override fun setEnabled(enable: Boolean, caller: Activity?) {
-
+    override fun setEnabled(enabled: Boolean, caller: Activity?) {
+        if (this.enabled.value != enabled) {
+            validate {
+                this.enabled.postValue(enabled)
+            }
+        }
     }
 
     override fun validate(caller: Activity?, callback: () -> Unit) {
-        super.validate(caller, callback)
+        if (!enabled.value!!) {
+            callback.invoke()
+        } else {
+            this.callback = callback
+            val intent = Intent(caller, LockActivity::class.java)
+            if (null != caller) {
+                caller.startActivity(intent)
+            } else {
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
+        }
     }
 
     //    override fun startSettings(caller: Activity) {

@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.jjmoo.android.lock.LockTestViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,24 +15,33 @@
         android:layout_height="match_parent"
         tools:context=".LockTestActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/enabled"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
             android:layout_marginTop="100dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <Switch
-                android:id="@+id/switch_enabled"
-                android:layout_width="80dp"
-                android:layout_height="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:checked="@{viewModel.isEnabled()}"
+                android:clickable="false"
                 android:gravity="center"
                 android:paddingStart="0dp"
-                android:paddingEnd="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:paddingEnd="20dp" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/setting"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="@id/enabled"
+            app:layout_constraintEnd_toStartOf="@id/enabled"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/enabled">
 
             <TextView
                 android:id="@+id/title"
@@ -37,13 +49,13 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp"
-                android:text="title"
+                android:text="@string/title_lock_setting"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toTopOf="@id/summary"
-                app:layout_constraintEnd_toStartOf="@id/switch_enabled"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/switch_enabled" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/summary"
@@ -51,10 +63,10 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp"
-                android:text="summary"
+                android:text="@{viewModel.type.name()}"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@id/switch_enabled"
-                app:layout_constraintEnd_toStartOf="@id/switch_enabled"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title" />
@@ -65,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:text="Start Browser"
+            android:text="@string/button_start_browser"
             android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

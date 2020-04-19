@@ -14,7 +14,9 @@ interface Lock {
 
     fun isEnabled(): LiveData<Boolean> = MutableLiveData(false)
 
-    fun setEnabled(enable: Boolean, caller: Activity? = null) {}
+    fun setEnabled(enabled: Boolean, caller: Activity? = null) {}
+
+    fun configure(caller: Activity? = null) {}
 
     fun validate(caller: Activity? = null, callback: () -> Unit) {
         callback.invoke()
