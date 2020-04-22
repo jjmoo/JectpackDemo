@@ -7,6 +7,7 @@ import com.jjmoo.android.jetpackdemo.base.BaseApplication
  */
 class MyApplication : BaseApplication() {
     override fun onCreate() {
+        if (BuildConfig.DEBUG) setStrictModeEnabled()
         super.onCreate()
     }
 }

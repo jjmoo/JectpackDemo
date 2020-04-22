@@ -9,6 +9,8 @@ import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import com.jjmoo.android.jetpackdemo.base.Lock
 import com.jjmoo.appjoint.annotation.ServiceProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import java.security.MessageDigest
 
@@ -49,41 +51,45 @@ class LockService(private val context: Application) : Lock {
         }
     }
 
+    override fun configure(caller: Activity?) {
+        startActivity(caller, Intent(caller, LockActivity::class.java)
+            .putExtra(INTENT_CONFIGURE, true))
+    }
+
     override fun validate(caller: Activity?, callback: () -> Unit) {
         if (!enabled.value!!) {
             callback.invoke()
         } else {
             this.callback = callback
-            val intent = Intent(caller, LockActivity::class.java)
-            if (null != caller) {
-                caller.startActivity(intent)
-            } else {
-                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-            }
+            startActivity(caller, Intent(caller, LockActivity::class.java))
         }
     }
 
-    //    override fun startSettings(caller: Activity) {
-//        logger.info("startSettings: caller=[{}]", caller)
-//        caller.startActivity(Intent(caller, LockActivity::class.java))
-//    }
-//
-//    override fun startActivity(caller: Activity, intent: Intent) {
-//        logger.info("startActivity: caller=[{}], intent=[{}]", caller, intent)
-//        caller.startActivity(Intent(caller, LockActivity::class.java).putExtra(KEY_INTENT, intent))
-//    }
+    private fun startActivity(caller: Activity?, intent: Intent) {
+        if (caller is Activity) {
+            caller.startActivity(intent)
+        } else {
+            context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        }
+    }
+
+    suspend fun pass() {
+        withContext(Dispatchers.Main) {
+           callback?.invoke()
+        }
+    }
 
     fun check(input: String) = password == md5(input)
 
     fun set(type: Lock.Type, input: String) {
-        this.type = type
+        this.type.postValue(type)
         password = md5(input)
         save()
     }
 
     private fun save() {
         context.getSharedPreferences(TAG, Context.MODE_PRIVATE).edit {
-            putInt(KEY_TYPE, type.ordinal)
+            putInt(KEY_TYPE, type.value!!.ordinal)
             putString(KEY_PASSWORD, password)
         }
     }
@@ -107,21 +113,6 @@ class LockService(private val context: Application) : Lock {
         private const val KEY_ENABLED = "lock_enabled"
         private const val KEY_TYPE = "lock_type"
         private const val KEY_PASSWORD = "lock_password"
+        private const val INTENT_CONFIGURE = "intent_configure"
     }
 }
-
-//interface Lock {
-//    enum class Type { DISABLED, PATTERN, PIN }
-//
-//    fun isInstalled() = false
-//
-//    fun getType(): LiveData<Type> = MutableLiveData<Type>(Type.DISABLED)
-//
-//    fun isEnabled() = Type.DISABLED == getType().value
-//
-//    fun setEnabled(enable: Boolean, caller: Activity? = null) {}
-//
-//    fun validate(caller: Activity? = null, callback: () -> Unit) {
-//        callback.invoke()
-//    }
-//}
