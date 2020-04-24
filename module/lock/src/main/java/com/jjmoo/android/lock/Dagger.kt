@@ -13,7 +13,6 @@ import dagger.multibindings.IntoMap
 /**
  * @author Zohn
  */
-
 @ActivityScope
 @Component(
     dependencies = [AppComponent::class],
@@ -44,5 +43,10 @@ abstract class Binders {
     @Binds
     @IntoMap
     @ViewModelKey(LockTestViewModel::class)
-    abstract fun bindViewModel(viewModel: LockTestViewModel): ViewModel
+    abstract fun bindLockTestViewModel(viewModel: LockTestViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ValidateViewModel::class)
+    abstract fun bindValidateViewModel(viewModel: ValidateViewModel): ViewModel
 }

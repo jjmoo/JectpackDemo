@@ -14,23 +14,22 @@ import javax.inject.Inject
 class LockTestActivity : AppCompatActivity() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    private val viewModelLazy = viewModels<LockTestViewModel> { factory }
+    private val vm by viewModels<LockTestViewModel> { factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerLockComponent.factory().create((application as BaseApplication).appComponent)
             .inject(this)
         super.onCreate(savedInstanceState)
-        val viewModel = viewModelLazy.value
         DataBindingUtil.setContentView<ActivityLockTestBinding>(
             this, R.layout.activity_lock_test
         ).apply {
             lifecycleOwner = this@LockTestActivity
-            this.viewModel = viewModel
+            viewModel = vm
             setting.setOnClickListener {
-                viewModel.configure(this@LockTestActivity)
+                vm.configure(this@LockTestActivity)
             }
             enabled.setOnClickListener {
-                viewModel.setEnabled(!viewModel.isEnabled().value!!, this@LockTestActivity)
+                vm.setEnabled(!vm.isEnabled().value!!, this@LockTestActivity)
             }
         }
     }

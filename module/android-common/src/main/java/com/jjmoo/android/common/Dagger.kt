@@ -16,7 +16,6 @@ import kotlin.reflect.KClass
 /**
  * @author Zohn
  */
-
 @Scope
 @Retention(value = AnnotationRetention.RUNTIME)
 annotation class ApplicationScope
