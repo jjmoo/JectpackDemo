@@ -13,6 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import com.jjmoo.android.common.doAfter
 import com.jjmoo.android.lock.databinding.FragmentValidateBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -43,7 +46,16 @@ class ValidateFragment : Fragment() {
     private fun subscribeUi(binding: FragmentValidateBinding) {
         viewModel.state.observe(viewLifecycleOwner) {
             if (it) {
-                // TODO
+                binding.state.run {
+                    setTextColor(resources.getColor(android.R.color.holo_green_light, null))
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        delay(300)
+                        activity?.run {
+                            finish()
+                            viewModel.pass()
+                        }
+                    }
+                }
             } else {
                 binding.input.setDisplayMode(PasswordInput.MODE_WRONG)
                 binding.state.run {
@@ -85,5 +97,9 @@ class ValidateViewModel @Inject constructor(
         } else if (password.isNotEmpty()) {
             _action.postValue("")
         }
+    }
+
+    suspend fun pass() {
+        lock.pass()
     }
 }

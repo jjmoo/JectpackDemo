@@ -9,7 +9,7 @@ open class CommonApplication : Application() {
 
     fun setStrictModeEnabled() {
         StrictMode.setThreadPolicy(
-            StrictMode.ThreadPolicy.Builder().detectAll().penaltyDeath().build())
+            StrictMode.ThreadPolicy.Builder().detectAll().permitDiskReads().penaltyDeath().build())
         StrictMode.setVmPolicy(
             StrictMode.VmPolicy.Builder().detectAll().penaltyDeath().build())
     }

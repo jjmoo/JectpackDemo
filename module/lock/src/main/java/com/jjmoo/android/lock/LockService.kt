@@ -65,8 +65,8 @@ class LockService(private val context: Application) : Lock {
     override fun configure(caller: Activity?) {
         logger.info("configure: caller = [{}]", caller)
         startActivity(
-            caller, Intent(caller, LockActivity::class.java)
-                .putExtra(INTENT_CONFIGURE, true)
+            caller,
+            Intent(caller, LockActivity::class.java).putExtra(INTENT_CONFIGURE, true)
         )
     }
 
