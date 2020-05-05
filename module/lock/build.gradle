@@ -2,14 +2,15 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     //noinspection GradleDependency
-    buildToolsVersion "$build_tools_version"
-    compileSdkVersion "$compile_sdk_version".toInteger()
+    buildToolsVersion rootProject.buildToolsVersion
+    compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
-        minSdkVersion "$min_sdk_version".toInteger()
-        targetSdkVersion "$target_sdk_version".toInteger()
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -46,5 +47,5 @@ android {
 dependencies {
     implementation project(':base')
 
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }

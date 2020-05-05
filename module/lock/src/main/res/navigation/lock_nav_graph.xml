@@ -9,5 +9,20 @@
         android:id="@+id/validateFragment"
         android:name="com.jjmoo.android.lock.ValidateFragment"
         android:label="fragment_validate"
-        tools:layout="@layout/fragment_validate" />
+        tools:layout="@layout/fragment_validate">
+        <action
+            android:id="@+id/action_validateFragment_to_configureFragment"
+            app:destination="@id/configureFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/configureFragment"
+        android:name="com.jjmoo.android.lock.ConfigureFragment"
+        android:label="fragment_configure"
+        tools:layout="@layout/fragment_configure" />
 </navigation>

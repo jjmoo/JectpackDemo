@@ -7,4 +7,7 @@
     <string name="validate_password_wrong">Try Again</string>
     <string name="title_lock_setting">Lock Setting</string>
     <string name="button_start_browser">Start Browser</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -115,9 +115,9 @@ class LockService(private val context: Application) : Lock {
 
     companion object {
         const val TAG = "LockProvider"
+        const val INTENT_CONFIGURE = "intent_configure"
         private const val KEY_ENABLED = "lock_enabled"
         private const val KEY_TYPE = "lock_type"
         private const val KEY_PASSWORD = "lock_password"
-        private const val INTENT_CONFIGURE = "intent_configure"
     }
 }
